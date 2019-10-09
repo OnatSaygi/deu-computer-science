@@ -1,11 +1,7 @@
-// hafta 1
 // TODO komsuluk ve bitisiklik donusturucu - bu iptal
 // TODO maksimum ve minimum derece bulan kod
-
-// hafta 2
 // TODO odev bir cigenin duzenli olup olmadigini kotrol eden
 // TODO cizge tumyelen c kodu
-
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -38,9 +34,25 @@ void setEdge(Graph* g, int source, int destination, int value) {
 }
 
 void drawGraph(Graph* g) {
+	printf("G | ");
 	for (int i = 0; i < g->size; i++) {
+		printf("%d ", i);
+	}
+	printf("\n--+");
+	for (int i = 0; i < g->size; i++) {
+		printf("--");
+	}
+	printf("\n");
+
+	for (int i = 0; i < g->size; i++) {
+		printf("%d | ", i);
 		for (int j = 0; j < g->size; j++) {
-			printf("%d ", getEdge(g, i, j));
+			if (i == j) {
+				printf("- ");
+			}
+			else {
+				printf("%d ", getEdge(g, i, j));
+			}
 		}
 		printf("\n");
 	}
@@ -218,15 +230,89 @@ void setWheelGraph(Graph* g) {
 	return;
 }
 
-// Checks for 2^n * m naiive method
-bool isBipartite(Graph* g) {
+// Checks for O(2^n * n^2) naiive method
+bool isBipartiteNaiive(Graph* g) {
+	// Create a bitmak of size(g) bits
 	for (int i = 0; i < 1 << g->size; i++) {
+		// For every step in the bitmask
 		for (int j = 0; j < g->size; j++) {
-			printf("%d ", !!(i & (1 << j)));
+
+			// Check for color collisions for the current mask
+			bool bipartite = true;
+			for (int a = 0; a < g->size; a++) {
+				for (int b = a + 1; b < g->size; b++) {
+					// If there's a collision flag it
+					if (!!(i & (1 << a)) == !!(i & (1 << b)) && getEdge(g, a, b)) {
+						bipartite = false;
+						break;
+					}
+				}
+				if (!bipartite) {
+					break;
+				}
+			}
+			// If there aren't any collisions graph must be bipartite
+			if (bipartite) {
+				return true;
+			}
 		}
-		printf("\n");
 	}
 	return false;
+}
+
+// Debug function for isBipartite()
+void printEdgeColors(int* color, int count) {
+	for (int i = 0; i < count; i++) {
+		printf("%c ", color[i] == -1 ? '-' : color[i] == 0 ? 'K' : 'M');
+	}
+	printf("\n");
+}
+
+bool isBipartite(Graph* g) {
+	// Setting every node colorless
+	int* color = (int*)malloc(g->size * sizeof(int));
+	for (int i = 0; i < g->size; i++) {
+		color[i] = -1;
+	}
+
+	// For every node
+	for (int i = 0; i < g->size; i++) {
+		printEdgeColors(color, g->size);
+		// Color the current node if it doesn't have one
+		if (color[i] == -1) {
+			color[i] = 0;
+		}
+
+		// For every next node
+		for (int j = i + 1; j < g->size; j++) {
+			printEdgeColors(color, g->size);
+
+			// Filter out the ones without an edge to the current node
+			if (!getEdge(g, i, j)) {
+				break;
+			}
+
+			// If the node is uncolored color it with the opposing color
+			if (color[j] == -1) {
+				color[j] = !color[i];
+			}
+			// If the node has the same color, return false
+			else if (color[i] == color[j]) {
+				return false;
+			}
+		}
+	}
+	// For every node i
+	for (int i = 0; i < g->size; i++) {
+		// For every node j
+		for (int j = i + 1; j < g->size; j++) {
+			// If i and j are connected and same color, return false
+			if (getEdge(g, i, j) && color[i] == color[j]) {
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 bool isRegularGraph(Graph* g) {
@@ -265,14 +351,25 @@ int main(int argc, char const *argv[]) {
 	int a[] = {6, 5, 5, 4, 3, 3, 2, 2, 2};
 	printf("%s\n", havelHakimi(a, sizeof(a)/sizeof(a[0])) ? "true" : "false");
 
-	Graph* g = initGraph(4);
+	Graph* g = initGraph(5);
+	makeEdge(g, 0, 3);
+	makeEdge(g, 0, 4);
+	makeEdge(g, 1, 3);
+	makeEdge(g, 1, 4);
+	makeEdge(g, 2, 3);
+	makeEdge(g, 2, 4);
+	makeEdge(g, 1, 2);
+
 	drawGraph(g);
 
-	isBipartite(g);
+	for (int i = 0; i < g->size; i++) {
+		printf("Tepe %d: %d\n", i, degree(g, i));
+	}
+	printf("max: %d\n", maxDegree(g));
+	printf("min: %d\n", minDegree(g));
 
-	printf("%d\n", degree(g, 0));
+	printf("%s\n", isBipartite(g) ? "true" : "false");
+	printf("%s\n", isBipartiteNaiive(g) ? "true" : "false");
 
-	drawGraph(g);
-	freeGraph(g);
 	return 0;
 }

@@ -230,7 +230,9 @@ void setWheelGraph(Graph* g) {
 	return;
 }
 
-// Checks for O(2^n * n^2) naiive method
+// Checks wheter the graph is bipartite
+// It's an inefficient however interesting method
+// O(2^n * n^2) time complexity with n as node count
 bool isBipartiteNaiive(Graph* g) {
 	// Create a bitmak of size(g) bits
 	for (int i = 0; i < 1 << g->size; i++) {
@@ -268,6 +270,8 @@ void printEdgeColors(int* color, int count) {
 	printf("\n");
 }
 
+// Checks wheter if a graph is bipartite using coloring method
+// O(n^2) time complexity
 bool isBipartite(Graph* g) {
 	// Setting every node colorless
 	int* color = (int*)malloc(g->size * sizeof(int));

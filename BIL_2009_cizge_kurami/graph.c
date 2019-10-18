@@ -232,9 +232,9 @@ void setWheelGraph(Graph* g) {
 
 // Checks wheter the graph is bipartite
 // It's an inefficient however interesting method
-// O(2^n * n^2) time complexity with n as node count
+// O(2^n * n^3) time complexity with n as node count
 bool isBipartiteNaiive(Graph* g) {
-	// Create a bitmak of size(g) bits
+	// Create a bitmask of size(g) bits
 	for (int i = 0; i < 1 << g->size; i++) {
 		// For every step in the bitmask
 		for (int j = 0; j < g->size; j++) {
@@ -319,6 +319,20 @@ bool isBipartite(Graph* g) {
 	return true;
 }
 
+// Checks wheter if there are no isolated graphs
+bool isConnected(Graph* g) {
+	if (g->size < 2) {
+		return false;
+	}
+	for (int i = 0; i < g->size; i++) {
+		if (isIsolated(g, i)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+// Checks wheter if every node in the graph has the same degree
 bool isRegularGraph(Graph* g) {
 	int d = degree(g, 0);
 	for (int i = 1; i < g->size; i++) {
@@ -327,6 +341,15 @@ bool isRegularGraph(Graph* g) {
 		}
 	}
 	return true;
+}
+
+// Returns how many edges a node has on average
+double averageDegree(Graph* g) {
+	int degreeSum = 0;
+	for (int i = 0; i < g->size; i++) {
+		degreeSum += degree(g, i);
+	}
+	return (double)degreeSum / g->size;
 }
 
 // herhangi bir ayrittan baska ayrita giden grup
@@ -350,9 +373,25 @@ bool validCycle(Graph*g, int* vertices, int size) {
 	return false;
 }
 
+bool doesCover(Graph* g, int* edge) {
+	return false; // TODO
+}
+
+int paulUngerMax(Graph* g, bool* set, int size) {
+	if (set == NULL) {
+		set = (bool*)malloc(size);
+		for (int i = 0; i < size; i++) {
+			set[i] = true;
+		}
+	}
+	// TODO
+	return 0;
+}
+
 int main(int argc, char const *argv[]) {
 
 	int a[] = {6, 5, 5, 4, 3, 3, 2, 2, 2};
+	printf("Havel hakimi:\n");
 	printf("%s\n", havelHakimi(a, sizeof(a)/sizeof(a[0])) ? "true" : "false");
 
 	Graph* g = initGraph(5);

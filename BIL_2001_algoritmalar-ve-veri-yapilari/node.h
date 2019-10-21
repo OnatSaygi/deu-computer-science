@@ -15,3 +15,7 @@ Node* newNode(Node* next, int value) {
 	n->value = value;
 	return n;
 }
+
+void freeNode(Node* n) {
+	free(n);
+}

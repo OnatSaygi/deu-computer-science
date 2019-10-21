@@ -21,9 +21,19 @@ LinkedList* newLinkedList() {
 	return l;
 }
 
+void freeLinkedList(LinkedList* l) {
+	Node* iterator = l->head;
+	while (iterator != NULL) {
+		Node* next = iterator->next;
+		freeNode(iterator);
+		iterator = next;
+	}
+	free(l);
+}
+
 // Prints out every node from head to tail
 void printLinkedList(LinkedList* l) {
-	printf("Linked list: [");
+	printf("[ ");
 	Node* iterator = l->head;
 	while (iterator != NULL) {
 		printf("%d ", iterator->value);
@@ -35,11 +45,13 @@ void printLinkedList(LinkedList* l) {
 // Adds a new node to tail and updates the tail pointer
 // O(1) time complexity
 void pushTailLinkedList(LinkedList* l, int value) {
+	// Linked list empty
 	if (l->tail == NULL) {
 		Node* newTail = newNode(NULL, value);
 		l->head = newTail;
 		l->tail = newTail;
 	}
+	// Linked list is nonempty
 	else {
 		Node* newTail = newNode(NULL, value);
 		l->tail->next = newTail;

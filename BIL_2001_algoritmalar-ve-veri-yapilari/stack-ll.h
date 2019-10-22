@@ -2,6 +2,11 @@
 #include "linked-list.h"
 #endif
 
+#ifndef STACK_LL
+#define STACK_LL
+#endif
+
+
 typedef struct StackLL {
 	LinkedList* l;
 } StackLL;

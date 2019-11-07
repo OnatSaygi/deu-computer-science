@@ -3,6 +3,30 @@
 // TODO odev bir cigenin duzenli olup olmadigini kotrol eden
 // TODO cizge tumyelen c kodu
 
+// TODO floyd algoritması c kodu
+// TODO incele
+// stefan hougaard the floyd warshall algorithm on graphs with negative cycles indormation processing letters 110 2010 279-281
+
+/*
+distance
+2 tepe arasinda en kisa yol kac ayrittan olusuyor
+ */
+
+/*
+eccentricity - aciklik
+herhangi bir tepeden en uzakta olan tepenin derecesi
+ */
+
+/*
+graph diameter - cap
+bir cizgenin en buyuk aciklik degeri
+ */
+
+/*
+radius
+bir cizgenin minimum aciklik degeri
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>

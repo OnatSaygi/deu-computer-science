@@ -69,7 +69,7 @@ double bisection(double (*func)(double), double min, double max, double precisio
 		return bisection(func, mid, max, precision);
 	}
 
-	return NAN;
+	return mid;
 }
 
 double regulaFalsi(double (*func)(double), double min, double max, double precision) {
@@ -89,7 +89,7 @@ double regulaFalsi(double (*func)(double), double min, double max, double precis
 		return regulaFalsi(func, rfPoint, max, precision);
 	}
 
-	return NAN;
+	return rfPoint;
 }
 
 int main(int argc, char const *argv[]) {

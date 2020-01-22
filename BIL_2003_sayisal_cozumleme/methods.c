@@ -73,7 +73,7 @@ double bisection(double (*func)(double), double min, double max, double precisio
 }
 
 double regulaFalsi(double (*func)(double), double min, double max, double precision) {
-	double rfPoint = (min * func(max) - max * func(min)) / (func(max) - func(min));
+	double rfPoint = (func(max) * min - func(min) * max) / (func(max) - func(min));
 	printPrecise(rfPoint);
 
 	double pMin = func(min) * func(rfPoint);

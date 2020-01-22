@@ -2,6 +2,8 @@
 This header contains functions to set a graph to a predetermined shape
  */
 
+#include <stdlib.h>
+
 #ifndef GRAPH_BASE_H
 #include "graph-base.h"
 #endif
@@ -68,4 +70,17 @@ void setWheelGraph(Graph* g) {
 		makeEdge(g, 0, i);
 	}
 	return;
+}
+
+void setRandomGraph(Graph *g, float edgeProbability) {
+	for (int i = 0; i < g->size; i++) {
+		for (int j = 0; j < g->size; j++) {
+			if ((double)rand() / RAND_MAX > edgeProbability) {
+				setEdge(g, i, j, true);
+			}
+			else {
+				setEdge(g, i, j, false);
+			}
+		}
+	}
 }

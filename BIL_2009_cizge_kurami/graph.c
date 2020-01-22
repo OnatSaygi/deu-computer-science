@@ -73,5 +73,14 @@ int main(int argc, char const *argv[]) {
 	printf("%s\n", isBipartite(g) ? "true" : "false");
 	printf("%s\n", isBipartiteNaiive(g) ? "true" : "false");
 
+
+	printf("\n\n\n");
+	drawGraph(g);
+	depthFirstTraverse(g, 0);
+
+	printf("\n\n\n");
+	drawGraph(g);
+	breathFirstTraverse(g, 0);
+
 	return 0;
 }

@@ -23,6 +23,10 @@ This header contains every sub header related to graphs
 #include "graph-query.h"
 #endif
 
+#ifndef GRAPH_SEARCH_H
+#include "graph-search.h"
+#endif
+
 #ifndef GRAPH_H
 #define GRAPH_H
 #endif
